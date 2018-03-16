@@ -17,7 +17,7 @@ public class GroupRestController {
 	@Autowired
 	private GroupService groupService;
 	
-	@RequestMapping("/groups")
+	@RequestMapping("/near")
     public @ResponseBody List<GroupDistanceDTO> groups(@RequestParam(value="lat") Double lat, @RequestParam(value="long") Double lon) {
         return groupService.findGroupsOrderByDistance(lat, lon);
     }
