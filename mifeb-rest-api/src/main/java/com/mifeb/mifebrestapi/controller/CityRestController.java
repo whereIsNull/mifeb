@@ -16,7 +16,7 @@ public class CityRestController {
 	@Autowired
 	private CityService cityService;
 	
-	@RequestMapping("/cities")
+	@RequestMapping("/topCities")
     public @ResponseBody List<CityAttendeesDTO> cities() {
         return cityService.findCitiesOrderByNumAttendees();
     }
