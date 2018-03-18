@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class CityRestController {
 	private CityService cityService;
 	
 	@RequestMapping("/topCities")
-    public @ResponseBody List<CityAttendeesDTO> cities() {
-        return cityService.findCitiesOrderByNumAttendees();
+    public @ResponseBody List<CityAttendeesDTO> cities(@RequestParam(value="date") String date) {
+        return cityService.findCitiesOrderByNumAttendees(date);
     }
 }
