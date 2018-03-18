@@ -34,10 +34,12 @@ public class MessageAdapter {
       
       String eventId = jsonObject.getJsonObject("event").getString("event_id");
       String eventName = jsonObject.getJsonObject("event").getString("event_name");
+      Long time = jsonObject.getJsonObject("event").getJsonNumber("time").longValue();
       Event event = new Event();
       event.setEventId(eventId);
       event.setEventName(eventName);
       event.setGroup(group);
+      event.setTime(time);
       
       Long memberId = jsonObject.getJsonObject("member").getJsonNumber("member_id").longValue();
       String memberName = jsonObject.getJsonObject("member").getString("member_name");
