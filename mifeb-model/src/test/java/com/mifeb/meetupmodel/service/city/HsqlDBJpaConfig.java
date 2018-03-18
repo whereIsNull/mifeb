@@ -1,4 +1,4 @@
-package com.mifeb.meetupmodel.entity.group;
+package com.mifeb.meetupmodel.service.city;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;

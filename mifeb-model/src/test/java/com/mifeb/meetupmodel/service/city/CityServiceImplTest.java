@@ -1,8 +1,9 @@
-package com.mifeb.meetupmodel.entity.group;
+package com.mifeb.meetupmodel.service.city;
 
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,17 +27,21 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import com.mifeb.meetupmodel.App;
+import com.mifeb.meetupmodel.dto.city.CityAttendeesDTO;
 import com.mifeb.meetupmodel.entity.event.Event;
 import com.mifeb.meetupmodel.entity.event.IEventDao;
 import com.mifeb.meetupmodel.entity.eventmember.EventMember;
 import com.mifeb.meetupmodel.entity.eventmember.EventMemberId;
 import com.mifeb.meetupmodel.entity.eventmember.IEventMemberDao;
+import com.mifeb.meetupmodel.entity.group.Group;
+import com.mifeb.meetupmodel.entity.group.IGroupDao;
 import com.mifeb.meetupmodel.entity.member.IMemberDao;
 import com.mifeb.meetupmodel.entity.member.Member;
+import com.mifeb.meetupmodel.service.city.CityService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class)
-public class GroupDaoTest {
+public class CityServiceImplTest {
 
 	@Autowired
 	private IGroupDao groupDao;
@@ -49,6 +54,9 @@ public class GroupDaoTest {
 	
 	@Autowired
 	private IEventMemberDao eventMemberDao;
+	
+	@Autowired
+	private CityService cityService;
 	
 	@Before
 	public void setUp() {
@@ -86,6 +94,7 @@ public class GroupDaoTest {
 		event.setEventId("event_1.1");
 		event.setEventName("Event group 1_1");
 		event.setGroup(group1);
+		event.setTime(Calendar.getInstance().getTimeInMillis());
 		eventDao.save(event);
 		List<Member> members = memberDao.findAllById(Arrays.asList(new Long[] {1L, 4L, 7L, 8L, 9L, 10L}));
 		for(Member member: members) {
@@ -101,6 +110,7 @@ public class GroupDaoTest {
 		event.setEventId("event_1.2");
 		event.setEventName("Event group 1_2");
 		event.setGroup(group1);
+		event.setTime(Calendar.getInstance().getTimeInMillis());
 		eventDao.save(event);
 		members = memberDao.findAllById(Arrays.asList(new Long[] {5L, 6L}));
 		for(Member member: members) {
@@ -116,6 +126,7 @@ public class GroupDaoTest {
 		event.setEventId("event_2.1");
 		event.setEventName("Event group 2_1");
 		event.setGroup(group2);
+		event.setTime(Calendar.getInstance().getTimeInMillis());
 		eventDao.save(event);
 		members = memberDao.findAllById(Arrays.asList(new Long[] {1L, 2L}));
 		for(Member member: members) {
@@ -131,6 +142,7 @@ public class GroupDaoTest {
 		event.setEventId("event_2.2");
 		event.setEventName("Event group 2_2");
 		event.setGroup(group2);
+		event.setTime(Calendar.getInstance().getTimeInMillis());
 		eventDao.save(event);
 		members = memberDao.findAllById(Arrays.asList(new Long[] {5L}));
 		for(Member member: members) {
@@ -146,6 +158,7 @@ public class GroupDaoTest {
 		event.setEventId("event_3.1");
 		event.setEventName("Event group 3_1");
 		event.setGroup(group3);
+		event.setTime(Calendar.getInstance().getTimeInMillis());
 		eventDao.save(event);
 		members = memberDao.findAllById(Arrays.asList(new Long[] {1L, 2L}));
 		for(Member member: members) {
@@ -161,6 +174,7 @@ public class GroupDaoTest {
 		event.setEventId("event_3.2");
 		event.setEventName("Event group 3_2");
 		event.setGroup(group3);
+		event.setTime(Calendar.getInstance().getTimeInMillis());
 		eventDao.save(event);
 		members = memberDao.findAllById(Arrays.asList(new Long[] {7L}));
 		for(Member member: members) {
@@ -176,6 +190,7 @@ public class GroupDaoTest {
 		event.setEventId("event_3.3");
 		event.setEventName("Event group 3_3");
 		event.setGroup(group3);
+		event.setTime(Calendar.getInstance().getTimeInMillis());
 		eventDao.save(event);
 		members = memberDao.findAllById(Arrays.asList(new Long[] {5L}));
 		for(Member member: members) {
@@ -191,15 +206,15 @@ public class GroupDaoTest {
 	
 	@Test
 	public void test() {
-		List<Object[]> cities = groupDao.findCities();
+		List<CityAttendeesDTO> cities = cityService.findCitiesOrderByNumAttendees(Calendar.getInstance().getTimeInMillis());
 		
 		assertEquals(cities.size(), 3);
-		assertEquals(cities.get(0)[0], "Naron");
-		assertEquals(cities.get(0)[1], 8L);
-		assertEquals(cities.get(1)[0], "Santiago");
-		assertEquals(cities.get(1)[1], 4L);
-		assertEquals(cities.get(2)[0], "Ferrol");
-		assertEquals(cities.get(2)[1], 3L);
+		assertEquals(cities.get(0).getCity(), "Naron");
+		assertEquals(cities.get(0).getAttendees(), 8L);
+		assertEquals(cities.get(1).getCity(), "Santiago");
+		assertEquals(cities.get(1).getAttendees(), 4L);
+		assertEquals(cities.get(2).getCity(), "Ferrol");
+		assertEquals(cities.get(2).getAttendees(), 3L);
 		
 		Optional<Event> event = eventDao.findById("event_2.1");
 		if(event.isPresent()) {
@@ -214,15 +229,15 @@ public class GroupDaoTest {
 			}
 		}
 				
-		cities = groupDao.findCities();
+		cities = cityService.findCitiesOrderByNumAttendees(Calendar.getInstance().getTimeInMillis());
 		
 		assertEquals(cities.size(), 3);
-		assertEquals(cities.get(0)[0], "Naron");
-		assertEquals(cities.get(0)[1], 8L);
-		assertEquals(cities.get(1)[0], "Ferrol");
-		assertEquals(cities.get(1)[1], 5L);
-		assertEquals(cities.get(2)[0], "Santiago");
-		assertEquals(cities.get(2)[1], 4L);
+		assertEquals(cities.get(0).getCity(), "Naron");
+		assertEquals(cities.get(0).getAttendees(), 8L);
+		assertEquals(cities.get(1).getCity(), "Ferrol");
+		assertEquals(cities.get(1).getAttendees(), 5L);
+		assertEquals(cities.get(2).getCity(), "Santiago");
+		assertEquals(cities.get(2).getAttendees(), 4L);
 	}
 
 }

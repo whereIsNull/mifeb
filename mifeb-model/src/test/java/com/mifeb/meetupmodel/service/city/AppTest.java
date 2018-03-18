@@ -1,4 +1,4 @@
-package com.mifeb.meetupmodel.entity.group;
+package com.mifeb.meetupmodel.service.city;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

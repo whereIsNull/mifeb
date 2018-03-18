@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: com.mifeb.meetupmodel.entity.group.GroupDaoTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.987 s - in com.mifeb.meetupmodel.entity.group.GroupDaoTest
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 5.004 s <<< FAILURE! - in com.mifeb.meetupmodel.entity.group.GroupDaoTest
+test(com.mifeb.meetupmodel.entity.group.GroupDaoTest)  Time elapsed: 0.274 s  <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problems: 
+	The method findCities(Long, Long) in the type IGroupDao is not applicable for the arguments ()
+	The method findCities(Long, Long) in the type IGroupDao is not applicable for the arguments ()
+
+	at com.mifeb.meetupmodel.entity.group.GroupDaoTest.test(GroupDaoTest.java:194)
+

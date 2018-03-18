@@ -18,6 +18,7 @@ public class Event implements Serializable {
 	private String eventName;
 	@ManyToOne
 	private Group group;
+	private Long time;
 	
 	public Event() {
 		// TODO Auto-generated constructor stub
@@ -47,6 +48,14 @@ public class Event implements Serializable {
 		this.group = group;
 	}
 
+	public Long getTime() {
+		return time;
+	}
+	
+	public void setTime(Long time) {
+		this.time = time;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

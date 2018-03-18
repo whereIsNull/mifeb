@@ -6,6 +6,6 @@ import com.mifeb.meetupmodel.dto.city.CityAttendeesDTO;
 
 public interface CityService {
 
-	List<CityAttendeesDTO> findCitiesOrderByNumAttendees();
+	List<CityAttendeesDTO> findCitiesOrderByNumAttendees(String isoTime);
 
 }

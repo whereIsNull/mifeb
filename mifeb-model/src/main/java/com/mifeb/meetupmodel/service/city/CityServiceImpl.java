@@ -1,5 +1,8 @@
 package com.mifeb.meetupmodel.service.city;
 
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,8 +22,18 @@ public class CityServiceImpl implements CityService {
 	private IGroupDao groupDao;
 	
 	@Override
-	public List<CityAttendeesDTO> findCitiesOrderByNumAttendees() {
-		List<Object[]> citiesByAttendees = groupDao.findCities();
+	public List<CityAttendeesDTO> findCitiesOrderByNumAttendees(String isoTime) {
+		Long time = Instant.parse(isoTime).toEpochMilli();
+		Calendar date = Calendar.getInstance();
+		date.setTimeInMillis(time);
+		date.set(Calendar.HOUR, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		Long startDay = date.getTimeInMillis();
+		date.add(Calendar.DAY_OF_MONTH, 1);
+		Long endDay = date.getTimeInMillis();
+		List<Object[]> citiesByAttendees = groupDao.findCities(startDay, endDay);
 		return citiesByAttendees.stream().map(
 				a -> new CityAttendeesDTO(a[0].toString(), ((Long)a[1]).intValue())
 			).collect(Collectors.toList());
